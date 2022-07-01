@@ -28,6 +28,11 @@
       "description": "Response data in the form of name:value pairs.",
       "type": "object",
       "properties": {
+        "operator_id": {
+          "description":
+            "Internal vendor id (added in OICT fork)",
+          "type": "string"
+        },
         "system_id": {
           "description":
             "Identifier for this vehicle share system. This should be globally unique (even between different systems).",
@@ -38,6 +43,10 @@
             "The language that will be used throughout the rest of the files. It must match the value in the gbfs.json file.",
           "type": "string",
           "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+        },
+        "logo": {
+          "description": "(added in OICT fork)",
+          "type": "string"
         },
         "name": {
           "description": "Name of the system to be displayed to customers.",
@@ -87,68 +96,35 @@
           "description": "The time zone where the system is located.",
           "type": "string"
         },
+        "license_id": {
+          "description":
+            "REQUIRED if the dataset is provided under a standard license. An identifier for a standard license from the SPDX License List. Provide license_id rather than license_url if the license is included in the SPDX License List. See the GBFS wiki for a comparison of a subset of standard licenses. If the license_id and license_url fields are blank or omitted, this indicates that the feed is provided under the Creative Commons Universal Public Domain Dedication.",
+          "type": "string",
+          "format": "uri"
+        },
         "license_url": {
           "description":
             "A fully qualified URL of a page that defines the license terms for the GBFS data for this system.",
           "type": "string",
           "format": "uri"
         },
-        "brand_assets": {
+        "terms_of_use_url": {
           "description":
-          "An object where each key defines one of the items listed below (added in v2.3-RC).",
-          "type": "object",
-          "properties": {
-            "brand_last_modified": {
-              "description": "Date that indicates the last time any included brand assets were updated (added in v2.3-RC).",
-              "type": "string",
-              "format": "date"
-            },
-            "brand_terms_url": {
-              "description": "A fully qualified URL pointing to the location of a page that defines the license terms of brand icons, colors or other trademark information (added in v2.3-RC).",
-              "type": "string",
-              "format": "uri"
-            },
-            "brand_image_url": {
-              "description": "A fully qualified URL pointing to the location of a graphic file representing the brand for the service (added in v2.3-RC). ",
-              "type": "string",
-              "format": "uri"
-            },
-            "brand_image_url_dark": {
-              "description": "A fully qualified URL pointing to the location of a graphic file representing the brand for the service for use in dark mode (added in v2.3-RC).",
-              "type": "string",
-              "format": "uri"
-            },
-            "color": {
-              "description": "Color used to represent the brand for the service (added in v2.3-RC)",
-              "type": "string",
-              "pattern": "^#([a-fA-F0-9]{6})$"
-            }
-          },
-          "required": ["brand_last_modified", "brand_image_url"]
-        },
-        "terms_url": {
-          "description":
-          "A fully qualified URL pointing to the terms of service (added in v2.3-RC)",
+          "A fully qualified URL pointing to the terms of service (added in v2.3-RC) (renamed in OICT fork)",
           "type": "string",
           "format": "uri"
         },
-        "terms_last_updated": {
+        "attribution_organization_name": {
           "description":
-          "The date that the terms of service provided at terms_url were last updated (added in v2.3-RC)",
-          "type": "string",
-          "format": "date"
-        },
-        "privacy_url": {
-          "description":
-          "A fully qualified URL pointing to the privacy policy for the service (added in v2.3-RC).",
+          "If the feed license requires attribution, name of the organization to which attribution should be provided.",
           "type": "string",
           "format": "uri"
         },
-        "privacy_last_updated": {
+        "attribution_url": {
           "description":
-          "The date that the privacy policy provided at privacy_url was last updated (added in v2.3-RC).",
+          "URL of the organization to which attribution should be provided.",
           "type": "string",
-          "format": "date"
+          "format": "uri"
         },
         "rental_apps": {
           "description":
@@ -193,16 +169,13 @@
                   "format": "uri"
                 }
               },
-              "required": ["store_uri", "discovery_uri"]
+              "required": ["store_uri", "discovery_uri"],
             }
           }
         }
       },
-      "required": ["system_id", "language", "name", "timezone"],
-      "dependentRequired": {
-        "terms_url": ["terms_last_updated"],
-        "privacy_url": ["privacy_last_updated"]
-      }
+      "required": ["operator_id", "system_id", "language", "name", "logo", "timezone"],
+      "dependentRequired": {}
     }
   },
   "required": ["last_updated", "ttl", "version", "data"]
