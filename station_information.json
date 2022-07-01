@@ -17,11 +17,7 @@
     "version": {
       "description": "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1).",
       "type": "string",
-      "enum": [
-        "2.1-RC2",
-        "2.1",
-        "2.2"
-      ]
+      "const": "2.3"
     },
     "data": {
       "description": "Array that contains one object per station as defined below.",

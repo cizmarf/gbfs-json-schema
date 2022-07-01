@@ -17,11 +17,7 @@
     "version": {
       "description": "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1).",
       "type": "string",
-      "enum": [
-        "2.2",
-        "3.0-RC",
-        "3.0"
-      ]
+      "const": "2.3"
     },
     "data": {
       "description": "Array that contains one object per bike as defined below.",
@@ -36,6 +32,10 @@
                 "description": "Rotating (as of v2.0) identifier of a vehicle.",
                 "type": "string"
               },
+			  "system_id": {
+                "description": "Identifier referencing the `system_id` field in [system_information.json](#system_informationjson). REQUIRED in the case of feeds that specify free (undocked) bikes and define systems in [system_information.json](#system_informationjson)",
+                "type": "string"
+              },
               "lat": {
                 "description": "The latitude of the vehicle.",
                 "type": "number",
@@ -47,6 +47,38 @@
                 "type": "number",
                 "minimum": -180,
                 "maximum": 180
+              },
+			  "helmets": {
+                "description": "no of helmets with the vehicle, for scooter or bike only",
+                "type": "number"
+              },
+			  "passengers": {
+                "description": "no of allowed passengers",
+                "type": "number"
+              },
+			  "damage_description": {
+                "description": "damage description",
+                "type": "string"
+              },
+			  "description": {
+                "description": "description",
+                "type": "string"
+              },
+			  "vehicle_registration": {
+                "description": "spz",
+                "type": "string"
+              },
+			  "make": {
+                "description": "make",
+                "type": "string"
+              },
+			  "model": {
+                "description": "model",
+                "type": "string"
+              },
+			  "color": {
+                "description": "color",
+                "type": "string"
               },
               "is_reserved": {
                 "description": "Is the vehicle currently reserved?",
@@ -81,6 +113,10 @@
                 "description": "The vehicle_type_id of this vehicle (added in v2.1-RC).",
                 "type": "string"
               },
+			  "vehicle_type": {
+                "description": "vehicle type",
+                "type" : "object"
+              },
               "last_reported": {
                 "description": "The last time this vehicle reported its status to the operator's backend in POSIX time (added in v2.1-RC).",
                 "type": "number",
@@ -90,6 +126,10 @@
                 "description": "The furthest distance in meters that the vehicle can travel without recharging or refueling with the vehicle's current charge or fuel (added in v2.1-RC).",
                 "type": "number",
                 "minimum": 0
+              },
+			  "charge_percent": {
+                "description": " REQUIRED only if the vehicle is using nonhuman fuel type and measures the remaining fuel capacity.",
+                "type": "number"
               },
               "station_id": {
                 "description": "Identifier referencing the station_id if the vehicle is currently at a station (added in v2.1-RC2).",
@@ -104,7 +144,7 @@
               "bike_id",
               "is_reserved",
               "is_disabled"
-            ]     
+            ]
           },
           "required": [
             "bikes"

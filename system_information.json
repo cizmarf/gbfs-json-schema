@@ -1,44 +1,52 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://github.com/NABSA/gbfs/blob/master/gbfs.md#system_informationjson",
-  "description": "Details including system operator, system location, year implemented, URL, contact info, time zone.",
+  "$id":
+    "https://github.com/NABSA/gbfs/blob/v2.3/gbfs.md#system_informationjson",
+  "description":
+    "Details including system operator, system location, year implemented, URL, contact info, time zone.",
   "type": "object",
   "properties": {
     "last_updated": {
-      "description": "Last time the data in the feed was updated in POSIX time.",
+      "description":
+        "Last time the data in the feed was updated in POSIX time.",
       "type": "integer",
       "minimum": 1450155600
     },
     "ttl": {
-      "description": "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed).",
+      "description":
+        "Number of seconds before the data in the feed will be updated again (0 if the data should always be refreshed).",
       "type": "integer",
       "minimum": 0
     },
     "version": {
-      "description": "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1).",
+      "description":
+        "GBFS version number to which the feed conforms, according to the versioning framework (added in v1.1).",
       "type": "string",
-      "enum": [
-        "1.1-RC",
-        "1.1",
-        "2.0",
-        "2.1-RC",
-        "2.1-RC2",
-        "2.1",
-        "2.2"
-      ]
+      "const": "2.3"
     },
     "data": {
       "description": "Response data in the form of name:value pairs.",
       "type": "object",
       "properties": {
+        "operator_id": {
+          "description":
+            "Internal vendor id (added in OICT fork)",
+          "type": "string"
+        },
         "system_id": {
-          "description": "Identifier for this vehicle share system. This should be globally unique (even between different systems).",
+          "description":
+            "Identifier for this vehicle share system. This should be globally unique (even between different systems).",
           "type": "string"
         },
         "language": {
-          "description": "The language that will be used throughout the rest of the files. It must match the value in the gbfs.json file.",
+          "description":
+            "The language that will be used throughout the rest of the files. It must match the value in the gbfs.json file.",
           "type": "string",
           "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$"
+        },
+        "logo": {
+          "description": "(added in OICT fork)",
+          "type": "string"
         },
         "name": {
           "description": "Name of the system to be displayed to customers.",
@@ -65,19 +73,22 @@
         "start_date": {
           "description": "Date that the system began operations.",
           "type": "string",
-          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          "format": "date"
         },
         "phone_number": {
-          "description": "A single voice telephone number for the specified system that presents the telephone number as typical for the system's service area.",
+          "description":
+            "A single voice telephone number for the specified system that presents the telephone number as typical for the system's service area.",
           "type": "string"
         },
         "email": {
-          "description": "Email address actively monitored by the operator's customer service department.",
+          "description":
+            "Email address actively monitored by the operator's customer service department.",
           "type": "string",
           "format": "email"
         },
         "feed_contact_email": {
-          "description": "A single contact email address for consumers of this feed to report technical issues (added in v1.1).",
+          "description":
+            "A single contact email address for consumers of this feed to report technical issues (added in v1.1).",
           "type": "string",
           "format": "email"
         },
@@ -85,74 +96,87 @@
           "description": "The time zone where the system is located.",
           "type": "string"
         },
+        "license_id": {
+          "description":
+            "REQUIRED if the dataset is provided under a standard license. An identifier for a standard license from the SPDX License List. Provide license_id rather than license_url if the license is included in the SPDX License List. See the GBFS wiki for a comparison of a subset of standard licenses. If the license_id and license_url fields are blank or omitted, this indicates that the feed is provided under the Creative Commons Universal Public Domain Dedication.",
+          "type": "string",
+          "format": "uri"
+        },
         "license_url": {
-          "description": "A fully qualified URL of a page that defines the license terms for the GBFS data for this system.",
+          "description":
+            "A fully qualified URL of a page that defines the license terms for the GBFS data for this system.",
+          "type": "string",
+          "format": "uri"
+        },
+        "terms_of_use_url": {
+          "description":
+          "A fully qualified URL pointing to the terms of service (added in v2.3-RC) (renamed in OICT fork)",
+          "type": "string",
+          "format": "uri"
+        },
+        "attribution_organization_name": {
+          "description":
+          "If the feed license requires attribution, name of the organization to which attribution should be provided.",
+          "type": "string",
+          "format": "uri"
+        },
+        "attribution_url": {
+          "description":
+          "URL of the organization to which attribution should be provided.",
           "type": "string",
           "format": "uri"
         },
         "rental_apps": {
-          "description": "Contains rental app information in the android and ios JSON objects (added in v1.1).",
+          "description":
+            "Contains rental app information in the android and ios JSON objects (added in v1.1).",
           "type": "object",
           "properties": {
             "android": {
-              "description": "Contains rental app download and app discovery information for the Android platform. (added in v1.1)",
+              "description":
+                "Contains rental app download and app discovery information for the Android platform. (added in v1.1)",
               "type": "object",
               "properties": {
                 "store_uri": {
-                  "description": "URI where the rental Android app can be downloaded from (added in v1.1).",
+                  "description":
+                    "URI where the rental Android app can be downloaded from (added in v1.1).",
                   "type": "string",
                   "format": "uri"
                 },
                 "discovery_uri": {
-                  "description": "URI that can be used to discover if the rental Android app is installed on the device (added in v1.1).",
+                  "description":
+                    "URI that can be used to discover if the rental Android app is installed on the device (added in v1.1).",
                   "type": "string",
                   "format": "uri"
                 }
               },
-              "dependencies": {
-                "android": [
-                  "store_uri",
-                  "discovery_uri"
-                ]
-              }
+              "required": ["store_uri", "discovery_uri"]
             },
             "ios": {
-              "description": "Contains rental information for the iOS platform (added in v1.1).",
+              "description":
+                "Contains rental information for the iOS platform (added in v1.1).",
               "type": "object",
               "properties": {
                 "store_uri": {
-                  "description": "URI where the rental iOS app can be downloaded from (added in v1.1).",
+                  "description":
+                    "URI where the rental iOS app can be downloaded from (added in v1.1).",
                   "type": "string",
                   "format": "uri"
                 },
                 "discovery_uri": {
-                  "description": "URI that can be used to discover if the rental iOS app is installed on the device (added in v1.1).",
+                  "description":
+                    "URI that can be used to discover if the rental iOS app is installed on the device (added in v1.1).",
                   "type": "string",
                   "format": "uri"
                 }
               },
-              "dependencies": {
-                "ios": [
-                  "store_uri",
-                  "discovery_uri"
-                ]
-              }
+              "required": ["store_uri", "discovery_uri"],
             }
           }
         }
       },
-      "required": [
-        "system_id",
-        "language",
-        "name",
-        "timezone"
-      ]
+      "required": ["operator_id", "system_id", "language", "name", "logo", "timezone"],
+      "dependentRequired": {}
     }
   },
-  "required": [
-    "last_updated",
-    "ttl",
-    "version",
-    "data"
-  ]
+  "required": ["last_updated", "ttl", "version", "data"]
 }

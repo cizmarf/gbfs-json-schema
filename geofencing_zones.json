@@ -17,21 +17,14 @@
     "version": {
       "description": "GBFS version number to which the feed conforms, according to the versioning framework.",
       "type": "string",
-      "enum": [
-        "2.1-RC",
-        "2.1-RC2",
-        "2.1",
-        "2.2",
-        "3.0-RC",
-        "3.0"
-      ]
+      "const": "2.3"
     },
     "data": {
       "description": "Array that contains geofencing information for the system.",
       "type": "object",
       "properties": {
         "geofencing_zones": {
-          "type": "object",
+          "type": "array",
           "description": "Each geofenced zone and its associated rules and attributes is described as an object within the array of features.",
           "properties": {
             "type": {
@@ -72,6 +65,19 @@
                         "type": "number",
                         "minimum": 1450155600
                       },
+					  "note": {
+                        "description": "note",
+                        "type": "string"
+                      },
+					  "source": {
+                        "description": "source",
+                        "type": "string"
+                      },
+					  "priority": {
+                        "description": "Priorita: 0 je nejnižší priorita. Vyšší priorita přepisuje nižší prioritu.",
+                        "type": "number",
+                        "minimum": 0
+                      },
                       "rules": {
                         "description": "Array that contains one object per rule.",
                         "type": "array",
@@ -95,15 +101,27 @@
                               "description": "What is the maximum speed allowed, in kilometers per hour?",
                               "type": "number",
                               "minimum": 0
-                            }
+						  },
+						  "parking_allowed": {
+							"description": "Povoleni parkovani v ramci jedné jízdy.",
+							"type": "boolean"
+						  },
+						  "price": {
+							"description": "Cena za vrácení v polygonu",
+							"type": "number"
+						  }
                           },
                           "required": [
                             "ride_allowed",
-                            "ride_through_allowed"
+                            "ride_through_allowed",
+							"parking_allowed"
                           ]
                         }
-                      }
-                    }
+					}
+                    },
+					"required": [
+                      "priority"
+                    ]
                   },
                   "geometry": {
                     "description": "A polygon that describes where rides might not be able to start, end, go through, or have otehr limitations. Must follow the right-hand rule.",
